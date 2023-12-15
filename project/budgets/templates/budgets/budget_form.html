@@ -1,0 +1,27 @@
+{% extends 'budgets/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="content-section">
+        <form method="post">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">New Budget</legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                {% if is_creating %}
+                    <button type="submit" class="btn btn-info">
+                        Create
+                    </button>
+                    <a class="btn btn-secondary " href="{% url 'budgets-home' %}">Cancel</a>
+                {% else %}
+                    <button type="submit" class="btn btn-info">
+                        Update
+                    </button>
+                    <a class="btn btn-secondary " href="{% url 'budgets-detail' object.id %}">Cancel</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+{% endblock content %}

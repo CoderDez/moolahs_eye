@@ -1,0 +1,88 @@
+{% extends 'budgets/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+    <h2 class="mb-5">Calculator</h2>
+    <form method="post" class="calculator bg-secondary p-4 rounded">
+        {% csrf_token %}
+        {{ form }}
+        <div class="row mt-3">
+            <div class="col-md-9">
+                <div class="row mb-2">
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2" value="7">7</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2" value="8">8</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2" value="9">9</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-danger btn-lg btn-block mr-1 mb-2" value="AC">
+                            <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-danger btn-lg btn-block mr-1 mb-2" value="del">
+                            <i class="fa fa-window-close" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2" value="4">4</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2" value="5">5</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2" value="6">6</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-warning btn-lg btn-block mr-1 mb-2" value="x">&times;</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-warning btn-lg btn-block mr-1 mb-2" value="/">&divide;</button>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2" value="1">1</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2" value="2">2</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2" value="3">3</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-warning btn-lg btn-block mr-1 mb-2" value="+">&plus;</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-warning btn-lg btn-block mr-1 mb-2" value="-">&minus;</button>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-warning btn-lg btn-block mr-1 mb-2" value=".">.</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2" value="0">0</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-warning btn-lg btn-block mr-1 mb-2" value="(">&#40;</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-warning btn-lg btn-block mr-1 mb-2" value=")">&#41;</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block mr-1 mb-2" value="=">&equals;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script src="{% static 'tools/js/calculator.js' %}"></script>
+{% endblock %}
