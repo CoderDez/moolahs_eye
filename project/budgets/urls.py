@@ -5,7 +5,8 @@ from .views import (
     BudgetDeleteView,
     BudgetUpdateView,
     BudgetDetailView,
-    EditBudgetItemsView
+    EditBudgetItemsView,
+    BudgetChartView
 )
 
 
@@ -15,5 +16,6 @@ urlpatterns = [
     path('budget/new/', BudgetCreateView.as_view(), name='budgets-create'),
     path('budget/<int:pk>/delete/', BudgetDeleteView.as_view(), name='budgets-delete'),
     path('budget/<int:pk>/update/', BudgetUpdateView.as_view(), name='budgets-update'),
-    path('budget/<int:pk>/items/edit', EditBudgetItemsView.as_view(), name='edit-items'),
+    path('budget/<int:pk>/items/edit/', EditBudgetItemsView.as_view(), name='edit-items'),
+    path('budget/<int:pk>/chart/', BudgetChartView.as_view(), name='budget-chart'),
 ]

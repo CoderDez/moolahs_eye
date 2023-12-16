@@ -1,6 +1,10 @@
 {% extends 'budgets/base.html' %}
-{% load crispy_forms_tags %}
+
 {% load static %}
+
+{% block static_resources %}
+    <scrip src="{% static 'tools/js/calculator' }"></scrip>
+{% endblock static_resources %}
 
 {% block content %}
     <h2 class="mb-5">Calculator</h2>
@@ -11,74 +15,74 @@
             <div class="col-md-9">
                 <div class="row mb-2">
                     <div class="col-md-2">
-                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2" value="7">7</button>
+                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2 text-append" value="7">7</button>
                     </div>
                     <div class="col-md-2">
-                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2" value="8">8</button>
+                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2 text-append" value="8">8</button>
                     </div>
                     <div class="col-md-2">
-                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2" value="9">9</button>
+                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2 text-append"  value="9">9</button>
                     </div>
                     <div class="col-md-2">
-                        <button type="button" class="btn btn-danger btn-lg btn-block mr-1 mb-2" value="AC">
+                        <button id="btn_backspace" type="button" class="btn btn-danger btn-lg btn-block mr-1 mb-2">
                             <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
                         </button>
                     </div>
                     <div class="col-md-2">
-                        <button type="button" class="btn btn-danger btn-lg btn-block mr-1 mb-2" value="del">
+                        <button id="btn_clear" type="button" class="btn btn-danger btn-lg btn-block mr-1 mb-2">
                             <i class="fa fa-window-close" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
                 <div class="row mb-2">
                     <div class="col-md-2">
-                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2" value="4">4</button>
+                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2 text-append" value="4">4</button>
                     </div>
                     <div class="col-md-2">
-                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2" value="5">5</button>
+                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2 text-append" value="5">5</button>
                     </div>
                     <div class="col-md-2">
-                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2" value="6">6</button>
+                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2 text-append" value="6">6</button>
                     </div>
                     <div class="col-md-2">
-                        <button type="button" class="btn btn-warning btn-lg btn-block mr-1 mb-2" value="x">&times;</button>
+                        <button type="button" class="btn btn-warning btn-lg btn-block mr-1 mb-2 text-append" value="x">&times;</button>
                     </div>
                     <div class="col-md-2">
-                        <button type="button" class="btn btn-warning btn-lg btn-block mr-1 mb-2" value="/">&divide;</button>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-md-2">
-                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2" value="1">1</button>
-                    </div>
-                    <div class="col-md-2">
-                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2" value="2">2</button>
-                    </div>
-                    <div class="col-md-2">
-                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2" value="3">3</button>
-                    </div>
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-warning btn-lg btn-block mr-1 mb-2" value="+">&plus;</button>
-                    </div>
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-warning btn-lg btn-block mr-1 mb-2" value="-">&minus;</button>
+                        <button type="button" class="btn btn-warning btn-lg btn-block mr-1 mb-2 text-append" value="/">&divide;</button>
                     </div>
                 </div>
                 <div class="row mb-2">
                     <div class="col-md-2">
-                        <button type="button" class="btn btn-warning btn-lg btn-block mr-1 mb-2" value=".">.</button>
+                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2 text-append" value="1">1</button>
                     </div>
                     <div class="col-md-2">
-                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2" value="0">0</button>
+                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2 text-append" value="2">2</button>
                     </div>
                     <div class="col-md-2">
-                        <button type="button" class="btn btn-warning btn-lg btn-block mr-1 mb-2" value="(">&#40;</button>
+                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2 text-append" value="3">3</button>
                     </div>
                     <div class="col-md-2">
-                        <button type="button" class="btn btn-warning btn-lg btn-block mr-1 mb-2" value=")">&#41;</button>
+                        <button type="button" class="btn btn-warning btn-lg btn-block mr-1 mb-2 text-append" value="+">&plus;</button>
                     </div>
                     <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary btn-lg btn-block mr-1 mb-2" value="=">&equals;</button>
+                        <button type="button" class="btn btn-warning btn-lg btn-block mr-1 mb-2 text-append" value="-">&minus;</button>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-warning btn-lg btn-block mr-1 mb-2 text-append" value=".">.</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-dark btn-lg btn-block mr-1 mb-2 text-append" value="0">0</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-warning btn-lg btn-block mr-1 mb-2 text-append" value="(">&#40;</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-warning btn-lg btn-block mr-1 mb-2 text-append" value=")">&#41;</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block mr-1 mb-2">&equals;</button>
                     </div>
                 </div>
             </div>

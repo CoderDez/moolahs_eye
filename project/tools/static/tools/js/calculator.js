@@ -1,33 +1,28 @@
 
-var form, input, buttons;
-
 function calculator() {
-    form = document.getElementsByClassName("calculator");
-    input = form.getElementsByTagName("input");
-    buttons = form.getElementsByTagName("button")
-    configureEventListeners()
-}
-
-function configureEventListeners() {
-    buttons.forEach(function(btn) {
-        if ( !Number.isNaN(btn.value) || "+-x/.()".contains(btn.value) ) {
-            btn.addEventListener("click", pushText);
-        }
-        else if (btn.value == "del") {
-            btn.addEventListener("click", popText);
-        }
-        else if (btn.value == "ac") {
-            btn.addEventListener("click", clear);
-        }
+    input = document.querySelector(".calculator .form-control");
+    console.log(input)
+    const textAppendButtons = document.querySelectorAll(".text-append");
+    textAppendButtons.forEach(btn => {
+        btn.addEventListener("click", pushText);
     })
+
+    const clearButton = document.querySelector("#btn_clear");
+    clearButton.addEventListener("click", clear)
+
+    const backspaceButton = document.querySelector("#btn_backspace");
+    backspaceButton.addEventListener("click", popText);
 }
 
-// event handler
 function pushText() {
     if (/[a-z][A-Z]/.test(input.value)) {
         input.value = "";
-        input.value += target.value;
     }
+    console.log("pushing");
+
+    console.log(input.value)
+    console.log(event.target.value)
+    input.value += event.target.value;
 }
 
 function popText() {

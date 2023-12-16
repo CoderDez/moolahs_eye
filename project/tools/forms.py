@@ -9,7 +9,7 @@ class CalculatorForm(Form):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control disabled-input', 
-                'readonly': 'readonly'}
+            }
             )
     )
 

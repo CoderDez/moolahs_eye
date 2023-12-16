@@ -1,4 +1,5 @@
 from typing import Any
+import json
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
@@ -38,6 +39,10 @@ class BudgetListView(LoginRequiredMixin, ListView):
 class BudgetDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Budget
 
+    def test_func(self):
+        budget = self.get_object()
+        return self.request.user == budget.creator
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Budget Details"
@@ -49,6 +54,27 @@ class BudgetDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
             return True
         else:
             return False
+        
+class BudgetChartView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = Budget
+    template_name = 'budgets/budget_chart.html'
+
+    def test_func(self):
+        budget = self.get_object()
+        return self.request.user == budget.creator
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Budget Chart"
+        
+        budget = self.get_object()
+        items = budget.item_set.all()
+
+        # Convert lists to JSON strings
+        context["labels"] = json.dumps([item.name for item in items])
+        context["costs"] = json.dumps([float(item.cost) for item in items])
+
+        return context
         
 
 class BudgetCreateView(LoginRequiredMixin, CreateView):
@@ -82,10 +108,7 @@ class BudgetDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     
     def test_func(self):
         budget = self.get_object()
-        if self.request.user == budget.creator:
-            return True
-        else:
-            return False
+        return self.request.user == budget.creator
         
     def get_success_url(self):
         budget_name = self.object.name 
@@ -104,11 +127,9 @@ class BudgetUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     
     def test_func(self):
         budget = self.get_object()
-        if self.request.user == budget.creator:
-            return True
-        else:
-            return False
-        
+        return self.request.user == budget.creator
+    
+
     def form_valid(self, form):
         messages.success(self.request, f'Budget "{form.instance.name}" has been successfully updated.')
         return super().form_valid(form)
