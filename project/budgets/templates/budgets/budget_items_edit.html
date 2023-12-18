@@ -15,6 +15,7 @@
 
     <h3 class="mb-5">{{object.name}}</h3>
     <div class="article-metadata">
+        <p>Limit - <span class="text-success">&euro;{{ object.limit}}</span></p>
         <p>Available - <span class="text-success">&euro;{{ object.remaining_limit}}</span></p>
     </div>
     {% for item_form in form.forms %}

@@ -1,97 +1,86 @@
 class Calculator:
     
-    def __init__(self, calculation: str) -> None:
-        self.calculation = calculation
-        self.num_indexes = len(calculation) - 1
+    def __init__(self, calculation: str):
+        self.value = calculation
+        self.__bracket_pairs = []
+        self.__num_indexes = len(calculation) - 1 if calculation else 0
+
+    def __str__(self):
+        return self.value
+    
+    def __repr__(self):
+        return f"Calculator(calculation = '{self.value}')"
 
     def __validate(self):
+        valid = False
+        if self.__validate_bracket_pairs():
+            if self.__validate_format():
+                valid = True
+
+        return valid
+
+    def __validate_bracket_pairs(self):
+        try:
+            if not (self.value.count("(") == self.value.count(")")):
+                return False
+            else:
+                stack = []
+                for ind, char in enumerate(self.value):
+                    if char == "(":
+                        stack.append(ind)
+
+                    elif char == ")":
+                        if stack:
+                            open_ind = stack.pop()
+                            self.__bracket_pairs.append( (open_ind, ind) )
+
+                return True
+
+        except Exception as e:
+            print("ERROR occurred while validating bracket pairs: ", e)
+            return False
+                
+
+    def __validate_format(self):
         valid = True
         try:
-            # if string is empty return valid
-            if self.num_indexes < 0:
+            if self.__num_indexes < 0:
                 return valid
-            
-            operators = ["+", "-", "x", "/"]
-            illegal_operator_preceedings = ["x", "/"]
+            else:
+                operators = ["+", "-", "x", "/"]
+                illegal_preceedings = ["x", "/"]
 
-            for ind, char in enumerate(self.calculation):
-                # if first character
-                if ind == 0:
-                    if char in ["x", "/", ")"]:
-                        valid = False
+                for ind, char in enumerate(self.value):
+                    if ind == 0:
+                        if char in ["x", "/", ")"]:
+                            valid=False
+                    elif ind == self.__num_indexes:
+                        if char in ["x", "/", "(", "+", "-"]:
+                            valid = False
+                    else:
+                        if char in operators and self.value[ind+1] in illegal_preceedings:
+                            valid = False
+
+                        elif char == "(" and self.value[ind+1] == ")":
+                            valid = False
+
+                        elif char == ")" and (self.value[ind+1] == "." or self.value[ind+1].isdigit()):
+                            valid = False
+
+                        elif char == "." and self.value[ind+1] == ".":
+                            valid = False
+
+                    if not valid:
                         break
-                # if last character
-                elif ind == self.num_indexes:
-                    if char in ["x", "/", "(", "+", "-"]:
-                        valid = False
-                        break
-                # if not first or last char
-                else:
-                    if char in operators:
-                        if self.calculation[ind+1] in illegal_operator_preceedings:
-                            valid = False
-                            break
 
-                    elif char == "(":
-                        if self.calculation[ind+1] == ")":
-                            valid = False
-                            break
-                    
-                    elif char == ")":
-                        if self.calculation[ind+1] == "." or self.calculation[ind+1].isdigit():
-                            valid = False
-                            break
-                    
-                    elif char == ".":
-                        pass
-
-                
+                return valid
+#
         except Exception as e:
-            valid = False
+            print("ERROR occurred while validating format: ", e)
             return valid
-    
-    def __get_bracket_pairs(self):
-        brackets = []
-        try:
-            found_opening =  0
-            found_closing = self.num_indexes
-
-            while found_opening != -1 or found_closing != -1:
-                if not brackets:
-                    found_opening = self.calculation.find("(")
-                    found_closing = self.calculation.rfind(")")
-                else:
-                    found_opening = self.calculation.find("(", start=found_opening+1)
-                    found_closing = self.calculation.rfind(")", start=found_closing-1)
-
-                if found_opening != -1 or found_closing != -1:
-                    brackets.append((found_closing, found_opening,))
-        except:
-            pass
-
 
     def calculate(self):
-        try:
-            valid = self.__validate()
-        except Exception as e:
-            raise
-
-        if valid:
+        if not self.__validate():
+            return "SYNTAX ERROR"
+        else:
             pass
-
-
-def get_bracket_pairs(calculation: str):
-    opening_brackets = []
-    closing_brackets = []
-    try:
-        for ind , char in enumerate(calculation):
-            if char == "(":
-                opening_brackets.append(ind)
-            elif char == ")":
-                closing_brackets.append(ind)
-                
-    except:
-        pass
-
-
-get_bracket_pairs("((Now)) (((9)))")

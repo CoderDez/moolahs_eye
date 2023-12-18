@@ -43,6 +43,7 @@ class CurrencyConverterView(FormView):
                 initial_figure = perform_exchange(amount, from_currency, to_currency)
 
             form = self.form_class(request.POST, initial_figure=initial_figure)
-            context['form'] = form
+         
+        context['form'] = form
 
         return render(request, self.template_name, context)
