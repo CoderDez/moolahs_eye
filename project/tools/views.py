@@ -5,6 +5,10 @@ from django.views.generic import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import CalculatorForm, CurrencyConverterForm
 from .currency_converter import perform_exchange
+from decimal import Decimal
+
+import requests, os
+from .models import Currency
 
 
 class CalculatorView(FormView):
@@ -33,14 +37,18 @@ class CurrencyConverterView(FormView):
         context = self.get_context_data()
 
         if form.is_valid():
-            amount = form.cleaned_data.get('amount')
-            from_currency = form.cleaned_data.get('from_currency')
-            to_currency = form.cleaned_data.get('to_currency')
+            amount = Decimal(form.cleaned_data.get('amount'))
+            from_currency_symbol = form.cleaned_data.get('from_currency')
+            to_currency_symbol = form.cleaned_data.get('to_currency')
+
+            # Retrieve Currency instances based on selected symbols
+            from_currency = Currency.objects.get(symbol=from_currency_symbol)
+            to_currency = Currency.objects.get(symbol=to_currency_symbol)
 
             if from_currency == to_currency:
                 initial_figure = amount
             else:
-                initial_figure = perform_exchange(amount, from_currency, to_currency)
+                initial_figure = perform_exchange(from_currency.symbol, to_currency.symbol, amount)
 
             form = self.form_class(request.POST, initial_figure=initial_figure)
          

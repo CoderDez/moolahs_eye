@@ -1,3 +1,0 @@
-finish calculator backend
-refactor UI
-refactor all code

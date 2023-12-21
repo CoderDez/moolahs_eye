@@ -1,5 +1,6 @@
 from django.forms import Form
 from django import forms
+from .models import Currency
 
 class CalculatorForm(Form):
     text_input = forms.CharField(
@@ -15,18 +16,7 @@ class CalculatorForm(Form):
 
 
 class CurrencyConverterForm(Form):
-    currencies = [
-        ('EUR', 'Euro €'),
-        ('USD', 'US Dollar $'),
-        ('GBP', 'British Pound £'),
-        ('AUD', 'Australian Dollar $'),
-        ('CAD', 'Candadian Dollar $'),
-        ('CHF', 'Swiss Franc ₣'),
-        ('CNY', 'Chinese Yuan ¥' ),
-        ('JPY', 'Japanese Yen ¥')
-        # Add more currencies as needed
-    ]
-
+    currencies = [(currency.symbol, currency.desc) for currency in Currency.objects.all()]
     amount = forms.DecimalField(max_digits=12, label="Amount", decimal_places=2)
     from_currency = forms.ChoiceField(choices=currencies, label="From")
     to_currency = forms.ChoiceField(choices=currencies, label="To")
