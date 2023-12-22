@@ -21,7 +21,9 @@
     {% for item_form in form.forms %}
         <h5 class="mt-5">
             {% if item_form.instance.id %}
+            
                 Item: {{item_form.instance.name|title}}
+
             {% else %}
                 {% if form.forms|length > 1 %}
                     Add another Item

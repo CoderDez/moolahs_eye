@@ -1,10 +1,16 @@
-from django.forms import inlineformset_factory, ModelForm
+from django.forms import inlineformset_factory
 from django.forms.models import BaseInlineFormSet
-from .models import Budget, Item
 from django.core.exceptions import ValidationError
+from .models import Budget, Item
 
 
 class BudgetItemFormSet(BaseInlineFormSet):
+    """
+    Formset class for handling budget item validation.
+
+    Validates the total cost of items against the budget limit.
+    """
+
     def clean(self):
         super().clean()
         

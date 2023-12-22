@@ -6,6 +6,16 @@ from django.core.exceptions import ValidationError
 
 
 class Budget(models.Model):
+    """
+    Model representing a budget with a name, limit, date of creation, and associated creator.
+
+    Attributes:
+    - name (CharField): The name of the budget (max length: 32).
+    - limit (DecimalField): The budget limit in currency (max digits: 10, decimal places: 2).
+    - date_created (DateTimeField): Date and time of the budget's creation (default: current time).
+    - creator (ForeignKey to User): The user who created the budget.
+    """
+
     name = models.CharField(max_length=32, unique=True, blank=False)
     limit = models.DecimalField(max_digits=10, decimal_places=2)
     date_created = models.DateTimeField(default=timezone.now)
@@ -21,10 +31,19 @@ class Budget(models.Model):
     def get_absolute_url(self):
         return reverse('budgets-detail', kwargs = {'pk': self.pk})
     
+
     def total_item_costs(self):
+        """
+        Calculates the total cost of all items within the budget.
+        """
         return sum(item.cost for item in self.item_set.all())
 
+
     def remaining_limit(self):
+        """
+        Calculates the remaining budget limit after deducting the total cost of items.
+        """
+
         used = self.total_item_costs()
         remaining = self.limit - used
         return remaining
@@ -42,6 +61,15 @@ class Budget(models.Model):
         
 
 class Item(models.Model):
+    """
+    Model representing an item within a budget with a name, cost, and associated budget.
+
+    Attributes:
+    - name (CharField): The name of the item (max length: 32).
+    - cost (DecimalField): The cost of the item in currency (max digits: 10, decimal places: 2).
+    - budget (ForeignKey to Budget): The budget to which the item belongs.
+    """
+    
     name = models.CharField(max_length=32)
     cost = models.DecimalField(max_digits=10, decimal_places=2)
     budget = models.ForeignKey(Budget, on_delete=models.CASCADE)

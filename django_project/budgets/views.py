@@ -1,4 +1,3 @@
-from typing import Any
 import json
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
@@ -50,11 +49,8 @@ class BudgetDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     
     def test_func(self):
         budget = self.get_object()
-        if self.request.user == budget.creator:
-            return True
-        else:
-            return False
-        
+        return self.request.user == budget.creator
+
 class BudgetChartView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Budget
     template_name = 'budgets/budget_chart.html'
@@ -63,7 +59,7 @@ class BudgetChartView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         budget = self.get_object()
         return self.request.user == budget.creator
 
-    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Budget Chart"
         

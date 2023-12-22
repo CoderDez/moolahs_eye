@@ -4,6 +4,7 @@
     <div class="text-right mb-3">
         <a class="btn bg-info text-white rounded" href="{% url 'budgets-create' %}"><i class="fas fa-plus"></i></a>
     </div>
+    
     {% for budget in budgets %}
         <article class="media content-section">
             <img class="rounded-circle article-img" src="{{ budget.creator.profile.image.url }}">
