@@ -6,9 +6,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import CalculatorForm, CurrencyConverterForm
 from .currency_converter import perform_exchange
 from decimal import Decimal
-
-import requests, os
 from .models import Currency
+from .calculator import Calculator
 
 
 class CalculatorView(FormView):
@@ -20,6 +19,20 @@ class CalculatorView(FormView):
         context['form'] = self.form_class
         context["title"] = "Calculator"
         return context
+    
+    def post(self, request) :
+        form = self.form_class(request.POST)
+        context = self.get_context_data()
+        if form.is_valid():
+            expression = form.cleaned_data.get('expression')
+            calculation = Calculator.calculate(expression)
+            form = self.form_class(initial = {"expression" : calculation}) 
+         
+        context['form'] = form
+
+        return render(request, self.template_name, context)
+    
+
 
 class CurrencyConverterView(FormView):
     template_name = "tools/currency_converter.html"
@@ -32,7 +45,7 @@ class CurrencyConverterView(FormView):
         context["title"] = "Currency Converter"
         return context
     
-    def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+    def post(self, request) :
         form = self.form_class(request.POST)
         context = self.get_context_data()
 

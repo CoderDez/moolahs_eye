@@ -3,16 +3,23 @@ from django import forms
 from .models import Currency
 
 class CalculatorForm(Form):
-    text_input = forms.CharField(
+    expression = forms.CharField(
         label="",
         max_length=32, 
-        disabled=True, 
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control disabled-input', 
+                'readonly': True
             }
-            )
+        )
     )
+    
+    def __init__(self, *args, **kwargs):
+        expression = kwargs.pop('expression', None) 
+        super().__init__(*args, **kwargs)
+
+        if expression is not None:
+            self.initial['expression'] = expression
 
 
 class CurrencyConverterForm(Form):

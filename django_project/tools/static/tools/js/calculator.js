@@ -1,7 +1,7 @@
 
 function calculator() {
     input = document.querySelector(".calculator .form-control");
-    console.log(input)
+
     const textAppendButtons = document.querySelectorAll(".text-append");
     textAppendButtons.forEach(btn => {
         btn.addEventListener("click", pushText);
@@ -14,22 +14,18 @@ function calculator() {
     backspaceButton.addEventListener("click", popText);
 }
 
-function pushText() {
-    if (/[a-z][A-Z]/.test(input.value)) {
+function pushText(event) {
+    if (/[a-zA-Z]/.test(input.value)) {
         input.value = "";
     }
-    console.log("pushing");
-
-    console.log(input.value)
-    console.log(event.target.value)
     input.value += event.target.value;
 }
 
-function popText() {
+function popText(event) {
     input.value = input.value.slice(0, -1);
 }
 
-function clear() {
+function clear(event) {
     input.value = "";
 }
 
