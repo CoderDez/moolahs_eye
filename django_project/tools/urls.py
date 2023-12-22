@@ -1,5 +1,4 @@
 from django.urls import path
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .views import CalculatorView, CurrencyConverterView
 
 urlpatterns = [

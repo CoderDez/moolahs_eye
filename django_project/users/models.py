@@ -3,6 +3,14 @@ from django.contrib.auth.models import User
 from PIL import Image
 
 class Profile(models.Model):
+    """
+    Model representing a user profile with an image.
+
+    Fields:
+    - user (OneToOneField): The associated user (related to the User model).
+    - image (ImageField): Profile picture of the user (default: 'default.jpeg', upload location: 'profile_pics').
+    """
+    
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpeg', upload_to='profile_pics')
 

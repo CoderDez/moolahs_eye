@@ -3,6 +3,13 @@ from django import forms
 from .models import Currency
 
 class CalculatorForm(Form):
+    """
+    Form for a simple calculator.
+
+    Fields:
+    - expression (CharField): Field to input and display the expression.
+    """
+
     expression = forms.CharField(
         label="",
         max_length=32, 
@@ -23,6 +30,15 @@ class CalculatorForm(Form):
 
 
 class CurrencyConverterForm(Form):
+    """
+    Form for currency conversion.
+
+    Fields:
+    - amount (DecimalField): Field for entering the amount to convert.
+    - from_currency (ChoiceField): Field for selecting the currency to convert from.
+    - to_currency (ChoiceField): Field for selecting the currency to convert to.
+    - figure (DecimalField): Field to display the converted amount (disabled).
+    """
     currencies = [(currency.symbol, currency.desc) for currency in Currency.objects.all()]
     amount = forms.DecimalField(max_digits=12, label="Amount", decimal_places=2)
     from_currency = forms.ChoiceField(choices=currencies, label="From")
