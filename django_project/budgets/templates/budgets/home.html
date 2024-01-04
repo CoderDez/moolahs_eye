@@ -1,48 +1,33 @@
 {% extends 'budgets/base.html' %}
+{% load static %}
 
 {% block content %}
-    <div class="text-right mb-3">
-        <a class="btn bg-info text-white rounded" href="{% url 'budgets-create' %}"><i class="fas fa-plus"></i></a>
-    </div>
-    
-    {% for budget in budgets %}
-        <article class="media content-section">
-            <img class="rounded-circle article-img" src="{{ budget.creator.profile.image.url }}">
-            <div class="media-body">
-                <div class="article-metadata">
-                    <a class="mr-2" href="#">{{ budget.amount }}</a>
-                    <small class="text-muted">{{ budget.date_created|date:'F d, Y' }}</small>
-                </div>
-                <h2>
-                    <a class="article-title" href="{% url  'budgets-detail' budget.id %}">{{ budget.name }}</a>
-                </h2>
-                <!-- <p class="article-content">{{ budget.content }}</p> -->
+    <div class="container">
+        <div class="d-flex justify-content-end mb-3">
+            <div class="btn-group budget-func-btns" role="group" aria-label="Basic example">
+                <a class="btn btn-dark text-light" href="#">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a class="btn btn-dark text-light" href="{% url 'budgets-create' %}">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                </a>
             </div>
-        </article>
-    {% endfor %}
+        </div>
 
-    {% if is_paginated %}
-
-        {% if page_obj.has_previous %}
-            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-        {% endif %}
-
-        {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-                <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
-
-            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3'  %}
-                <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
-            
-            {% endif %}
-
-        {% endfor %}
-
-        {% if page_obj.has_next %}
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-        {% endif %}
-
-    {% endif %}
+        <table class="table table-light table-hover rounded budget-table">
+            <thead>
+                <th>Name</th>
+                <th>Limit &lpar;&euro;&rpar;</th>
+            </thead>
+            <tbody>
+                {% for budget in budgets %}
+                    <tr class="budget-table-row" data-href="{{ budget.get_absolute_url }}">
+                        <td class="budget-name">{{budget.name}}</td>
+                        <td class="money-color">{{budget.limit}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="{% static 'budgets/js/budget_table.js' %}"></script>
 {% endblock content %}

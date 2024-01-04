@@ -23,7 +23,6 @@ class BudgetListView(LoginRequiredMixin, ListView):
     model = Budget
     template_name = 'budgets/home.html'
     context_object_name = 'budgets'
-    paginate_by = 5
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.request.user)
