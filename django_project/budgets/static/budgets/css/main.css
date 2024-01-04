@@ -104,3 +104,8 @@ body {
   font-family: Arial, Helvetica sans-serif !important;
 }
 
+/* styles for inputs that are readonly */
+input[readonly]{
+  background-color: transparent !important;
+}
+

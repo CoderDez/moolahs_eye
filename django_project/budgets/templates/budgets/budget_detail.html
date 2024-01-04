@@ -1,42 +1,51 @@
 {% extends 'budgets/base.html' %}
 
+{% load static %}
+{% block static_resources %}
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock static_resources %}
+
 {% block content %}
-    <article class="media content-section">
-        <img class="rounded-circle article-img" src="{{ object.creator.profile.image.url }}">
+    <div class="container bg-light rounded pb-2">
+        <h2 class="text-center pt-4 pb-2">{{object.name}}</h2>
 
-        <div class="media-body">
-            <div class="article-metadata">
-                <a class="mr-2" href="#">{{ object.name }}</a>
-                <small class="text-muted">{{ object.date_created|date:'F d, Y' }}</small>
+        <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="">Details</span>
             </div>
-
-            <h2 class="article-title text-success mt-2 ">&euro;{{ object.limit|floatformat:"2"}}<h2>
-
-            <div>
-                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'budgets-update' object.id %}">
+            <input type="text" class="form-control" readonly value="{{object.name}}">
+            <input type="number" class="form-control" readonly value="{{object.limit}}">
+            <div class="input-group-append">
+                <a class="btn btn-info" href="#">
                     <i class="fas fa-edit"></i>
                 </a>
-                <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'budgets-delete' object.id %}">
-                    <i class="fas fa-trash"></i>
-                </a>       
             </div>
+        </div>    
+        <div class="input-group">
+            <div class="input-group-prepend">
+             <span class="input-group-text" id="">Total Costs &lpar;&euro;&rpar;</span>
+            </div>
+            <input type="number" class="form-control" readonly value="{{object.total_item_costs}}">
+        </div>
 
-            <div class="mt-5 mb-5 row">
-                <div class="col-md-6">
-                    <h4>Total Costs - <span class="text-success">&euro;{{ object.total_item_costs }}</span></h4>
-                </div>
-                <div class="col-md-6 text-md-right">
-                    <a class="btn btn-success btn-sm" href="{% url 'budget-chart' object.id %}">
-                        <i class="fas fa-chart-pie"></i>                    
-                    </a>
-                    <a class="btn btn-info btn-sm" href="{% url 'edit-items' object.id %}">
-                        <i class="fas fa-edit"></i>
-                    </a>
-                </div>
+        <h3 class="text-center mt-4 mb-2">Items</h3>
+
+        <div class="d-flex justify-content-end">
+            <div class="btn-group" role="group" aria-label="Button group">
+                <a class="btn btn-info" href="#">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a class="btn btn-primary" href="#">
+                    <i class="fas fa-plus"></i>                
+                </a>
             </div>
-            <h3>Items:</h3>
-            <table class="table">
-                <thead>
+        </div>
+
+        <div class="pb-5 mb-5">
+            <!-- table -->
+            <table class="table mt-4 mb-4 mb-5 active-view">
+                <thead class="thead-light">
                     <tr>
                         <th>Name</th>
                         <th>Cost</th>
@@ -50,8 +59,17 @@
                         </tr>
                     {% endfor %}
                 </tbody>
-            </table>
-
+         </table>
+         <!-- end of table -->
+         <!-- chart -->
+         <hr class="mb-5">
+         <canvas id="chart" width="200" height="200"
+             data-labels="{{ labels }}"
+             data-costs="{{ costs }}">
+         </canvas>
+         <!-- end of chart -->
         </div>
-    </article>
+    </div>
+    <script src="{% static 'budgets/js/budget_chart.js' %}"></script>
+
 {% endblock content %}

@@ -44,32 +44,25 @@ class BudgetDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = "Budget Details"
+
+        budget = self.get_object()
+        items = budget.item_set.all()
+
+        labels = [item.name for item in items]
+        costs = [item.cost for item in items]
+
+        if labels:
+            context["labels"] = json.dumps([item.name for item in items])
+            context["costs"] = json.dumps([float(item.cost) for item in items])
+        else:
+            context["labels"] = json.dumps(["Empty"])
+            context["costs"] = json.dumps([1])
+
         return context
     
     def test_func(self):
         budget = self.get_object()
         return self.request.user == budget.creator
-
-class BudgetChartView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
-    model = Budget
-    template_name = 'budgets/budget_chart.html'
-
-    def test_func(self):
-        budget = self.get_object()
-        return self.request.user == budget.creator
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = "Budget Chart"
-        
-        budget = self.get_object()
-        items = budget.item_set.all()
-
-        # Convert lists to JSON strings
-        context["labels"] = json.dumps([item.name for item in items])
-        context["costs"] = json.dumps([float(item.cost) for item in items])
-
-        return context
         
 
 class BudgetCreateView(LoginRequiredMixin, CreateView):

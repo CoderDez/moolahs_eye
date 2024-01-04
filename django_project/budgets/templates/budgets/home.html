@@ -2,20 +2,20 @@
 {% load static %}
 
 {% block content %}
-    <div class="container">
+    <div class="container bg-light rounded pb-2 pt-2">
         <div class="d-flex justify-content-end mb-3">
             <div class="btn-group budget-func-btns" role="group" aria-label="Basic example">
-                <a class="btn btn-dark text-light" href="#">
+                <a class="btn btn-info" href="#">
                     <i class="fas fa-edit"></i>
                 </a>
-                <a class="btn btn-dark text-light" href="{% url 'budgets-create' %}">
+                <a class="btn btn-primary" href="{% url 'budgets-create' %}">
                     <i class="fa fa-plus" aria-hidden="true"></i>
                 </a>
             </div>
         </div>
 
         <table class="table table-light table-hover rounded budget-table">
-            <thead>
+            <thead class="thead-light">
                 <th>Name</th>
                 <th>Limit &lpar;&euro;&rpar;</th>
             </thead>
