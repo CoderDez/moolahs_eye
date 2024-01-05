@@ -7,68 +7,82 @@
 {% endblock static_resources %}
 
 {% block content %}
-    <div class="container bg-light rounded pb-2">
-        <h2 class="text-center pt-4 pb-2">{{object.name}}</h2>
+    <div class="budget-div container bg-light rounded pb-2">
 
-        <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="">Details</span>
-            </div>
-            <input type="text" class="form-control" readonly value="{{object.name}}">
-            <input type="number" class="form-control" readonly value="{{object.limit}}">
-            <div class="input-group-append">
-                <a class="btn btn-info" href="#">
-                    <i class="fas fa-edit"></i>
-                </a>
-            </div>
-        </div>    
-        <div class="input-group">
-            <div class="input-group-prepend">
-             <span class="input-group-text" id="">Total Costs &lpar;&euro;&rpar;</span>
-            </div>
-            <input type="number" class="form-control" readonly value="{{object.total_item_costs}}">
-        </div>
+        <div id="budget-details-div">
+            <h2 class="text-center pt-4 pb-2">{{object.name}}</h2>
 
-        <h3 class="text-center mt-4 mb-2">Items</h3>
-
-        <div class="d-flex justify-content-end">
-            <div class="btn-group" role="group" aria-label="Button group">
-                <a class="btn btn-info" href="#">
-                    <i class="fas fa-edit"></i>
-                </a>
-                <a class="btn btn-primary" href="#">
-                    <i class="fas fa-plus"></i>                
-                </a>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="">Details</span>
+                </div>
+                <input type="text" class="form-control" readonly value="{{object.name}}">
+                <input type="number" class="form-control" readonly value="{{object.limit}}">
+                <div class="input-group-append">
+                    <a class="btn btn-info" href="#">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </div>
+            </div>    
+            <div class="input-group">
+                <div class="input-group-prepend">
+                 <span class="input-group-text" id="">Total Costs &lpar;&euro;&rpar;</span>
+                </div>
+                <input type="number" class="form-control" readonly value="{{object.total_item_costs}}">
             </div>
         </div>
 
-        <div class="pb-5 mb-5">
-            <!-- table -->
-            <table class="table mt-4 mb-4 mb-5 active-view">
-                <thead class="thead-light">
-                    <tr>
-                        <th>Name</th>
-                        <th>Cost</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in object.item_set.all %}
-                        <tr>
-                            <td>{{ item.name }}</td>
-                            <td>{{ item.cost }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-         </table>
-         <!-- end of table -->
-         <!-- chart -->
-         <hr class="mb-5">
-         <canvas id="chart" width="200" height="200"
-             data-labels="{{ labels }}"
-             data-costs="{{ costs }}">
-         </canvas>
-         <!-- end of chart -->
+        <div id="items_div">
+            <h3 class="text-center mt-4 mb-2">Items</h3>
+
+            <div class="d-flex justify-content-end">
+                <div class="btn-group" role="group" aria-label="Button group">
+                    <a class="btn btn-info" href="#">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a class="btn custom-blue" href="#">
+                        <i class="fas fa-plus"></i>                
+                    </a>
+                </div>
+            </div>
+
+            <div class="pb-5 mb-5">
+                <!-- table -->
+                <div id="items_table_div">
+
+                    <table class="table mt-4 mb-4 mb-5">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Name</th>
+                                <th>Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in object.get_items_sorted_by_limit %}
+                                <tr>
+                                    <td>{{ item.name }}</td>
+                                    <td class="money-color">{{ item.cost }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <!-- end of table -->
+
+                </div>
+                
+                <div id="chart_div" class="chart-div bg-white rounded pb-4 pt-4">
+                    <!-- chart -->
+                    <canvas id="chart" width="200" height="200"
+                        data-labels="{{ labels }}"
+                        data-costs="{{ costs }}">
+                    </canvas>
+                    <!-- end of chart -->
+                </div>
+            </div>
         </div>
+
+
+        
     </div>
     <script src="{% static 'budgets/js/budget_chart.js' %}"></script>
 

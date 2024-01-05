@@ -90,14 +90,25 @@ body {
 }
 
 /* table on home page */
-
 .budget-table tbody tr:hover {
   cursor: pointer;
 }
 
-/* styles for name and limit */
+/* styles for name, limit */
 .money-color {
   color: #3e9c35 !important;
+}
+
+
+
+.custom-blue {
+  background-color: hsl(208, 98%, 35%);
+  color: white;
+}
+
+.custom-blue:hover {
+  background-color: hsl(208, 98%, 25%);
+  color: white;
 }
 
 .budget-name {
@@ -107,5 +118,33 @@ body {
 /* styles for inputs that are readonly */
 input[readonly]{
   background-color: transparent !important;
+}
+
+/* chart div */
+.chart-div {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+
+/* budget div and coverter div */
+.budget-div, .converter-div, .calculator-div {
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
+
+}
+
+/* calculator */
+
+.calculator {
+  background-color: hsl(205, 2%, 75%);
+  border: 1px solid black;
+  width: 90% !important;
+  margin: auto;
+}
+
+
+.calculator input {
+  background-color: white !important;
+  border: 1px solid black;
+  padding: 8px;
 }
 

@@ -31,6 +31,8 @@ class Budget(models.Model):
     def get_absolute_url(self):
         return reverse('budgets-detail', kwargs = {'pk': self.pk})
     
+    def get_items_sorted_by_limit(self):
+        return self.item_set.all().order_by('-cost')
 
     def total_item_costs(self):
         """
